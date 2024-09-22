@@ -29,6 +29,28 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Create env
+        run: |
+          ENV_VARS=(
+            "SECRET_KEY=${{ secrets.SECRET_KEY }}"
+            "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}"
+            "CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }}"
+            "CHATBOT_API=${{ secrets.CHATBOT_API }}"
+            "CHATBOT_URL=${{ secrets.CHATBOT_URL }}"
+            "DB_NAME=${{ secrets.DB_NAME }}"
+            "DB_USER=${{ secrets.DB_USER }}"
+            "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
+            "DB_HOST=${{ secrets.DB_HOST }}"
+            "DB_PORT=${{ secrets.DB_PORT }}"
+            "OCR_ENDPOINT=${{ secrets.OCR_ENDPOINT }}"
+            "OCR_REGION=${{ secrets.OCR_REGION }}"
+            "OCR_SUBSCRIPTION_KEY=${{ secrets.OCR_SUBSCRIPTION_KEY }}"
+          )
+          for VAR in "${ENV_VARS[@]}"; do
+            echo "$VAR" >> .env
+          done
+
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
