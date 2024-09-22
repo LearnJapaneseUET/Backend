@@ -24,11 +24,14 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)'
     
 - script: |
+    python -m venv venv
+    source venv/bin/activate
     python -m pip install --upgrade pip
     pip install -r requirements.txt
   displayName: 'Install prerequisites'
 
 - script: |
+    source venv/bin/activate
     cd myproject
     python manage.py collectstatic --noinput
   displayName: 'Build'
