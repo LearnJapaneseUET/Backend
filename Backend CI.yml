@@ -7,10 +7,10 @@ pool:
 
 steps:
 - task: DownloadSecureFile@1
+  displayName: 'Download env'
   inputs:
-    secureFile: '.env'
-  displayName: 'Download .env file'
-  
+    secureFile: .env
+
 - task: CopyFiles@2
   displayName: 'Copy .env to source code'
   inputs:
@@ -20,7 +20,7 @@ steps:
     
 - script: |
     echo "Zip all files"
-    zip release.zip ./* -r
+    zip -r release.zip .
   displayName: 'Zip files to upload server'
 
 - task: PublishBuildArtifacts@1
