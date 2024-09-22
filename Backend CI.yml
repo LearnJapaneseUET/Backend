@@ -6,6 +6,11 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    architecture: 'x64'
+    
 - task: DownloadSecureFile@1
   displayName: 'Download env'
   inputs:
