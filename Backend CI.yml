@@ -1,27 +1,14 @@
-# Python Django
-# Test a Django project on multiple versions of Python.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
 - main
 
 pool:
+  name: 'Azure'
   vmImage: ubuntu-latest
-strategy:
-  matrix:
-    Python38:
-      PYTHON_VERSION: '3.8'
-    Python39:
-      PYTHON_VERSION: '3.9'
-    Python310:
-      PYTHON_VERSION: '3.10'
-  maxParallel: 3
 
 steps:
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '$(PYTHON_VERSION)'
+    versionSpec: '3.x'
     architecture: 'x64'
 
 - task: DownloadSecureFile@1
