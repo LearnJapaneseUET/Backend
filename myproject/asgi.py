@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-settings_module = 'myproject.development' if os.environ.get('MODE') == 'development' else 'myproject.production'
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
 
 application = get_asgi_application()
