@@ -20,7 +20,7 @@ steps:
     
 - script: |
     echo "Zip all files"
-    zip -r release.zip .
+    zip -r release.zip . -x "*.git*"
   displayName: 'Zip files to upload server'
 
 - task: PublishBuildArtifacts@1
