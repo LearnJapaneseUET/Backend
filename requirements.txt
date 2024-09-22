@@ -4,7 +4,6 @@ djangorestframework
 django-cors-headers
 python-decouple
 psycopg
-psycopg2
 requests
 selenium
 openai

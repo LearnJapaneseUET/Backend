@@ -11,7 +11,10 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
+# If the MODE environment variable is set to 'development', use the development settings module
+settings_module = 'myproject.development' if os.environ.get('MODE') == 'development' else 'myproject.production'
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
 application = get_wsgi_application()
 
