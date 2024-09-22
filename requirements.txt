@@ -2,7 +2,6 @@ django
 django-environ
 djangorestframework
 django-cors-headers
-libpq-dev
 python-decouple
 psycopg
 psycopg2
