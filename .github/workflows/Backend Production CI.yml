@@ -1,8 +1,8 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+          # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - UETLearningJapaneseBE
+name: Build and deploy Python app to Azure Web App - learning-japanese-app-backend
 
 on:
   push:
@@ -24,48 +24,34 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
+          cd Backend
           python -m venv venv
           source venv/bin/activate
-      
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          cd Backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Collect static files
-        run: python manage.py collectstatic --noinput
-
-      - name: Create env and copy to root
         run: |
-          ENV_VARS=(
-            "SECRET_KEY=${{ secrets.SECRET_KEY }}"
-            "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}"
-            "CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }}"
-            "CHATBOT_API=${{ secrets.CHATBOT_API }}"
-            "CHATBOT_URL=${{ secrets.CHATBOT_URL }}"
-            "DB_NAME=${{ secrets.DB_NAME }}"
-            "DB_USER=${{ secrets.DB_USER }}"
-            "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
-            "DB_HOST=${{ secrets.DB_HOST }}"
-            "DB_PORT=${{ secrets.DB_PORT }}"
-            "OCR_ENDPOINT=${{ secrets.OCR_ENDPOINT }}"
-            "OCR_REGION=${{ secrets.OCR_REGION }}"
-            "OCR_SUBSCRIPTION_KEY=${{ secrets.OCR_SUBSCRIPTION_KEY }}"
-          )
-          for VAR in "${ENV_VARS[@]}"; do
-            echo "$VAR" >> ${GITHUB_WORKSPACE}/.env
-          done
-          cat "${GITHUB_WORKSPACE}/.env"
+          cd Backend
+          python manage.py collectstatic --noinput
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: |
+          cd Backend
+          zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            release.zip
+            Backend/release.zip
             !venv/
 
   deploy:
@@ -90,14 +76,30 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_717338561C5B4C26BD90C47403AAFF2D }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_95613523576A44C08C3CD29ED0FAEED7 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E9D82413CEF44DA78051E267E73BED04 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_FD67B10733A14EF883D5EBC8E6080926 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D69E87A903D34CFF8F8F2E55465884DA }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2D110D9E79E642A5B967355314E762A2 }}
 
+      - name: Set environment variables
+        run: |
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+          echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" >> $GITHUB_ENV
+          echo "CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }}" >> $GITHUB_ENV
+          echo "CHATBOT_API=${{ secrets.CHATBOT_API }}" >> $GITHUB_ENV
+          echo "CHATBOT_URL=${{ secrets.CHATBOT_URL }}" >> $GITHUB_ENV
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+          echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> $GITHUB_ENV
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
+          echo "OCR_ENDPOINT=${{ secrets.OCR_ENDPOINT }}" >> $GITHUB_ENV
+          echo "OCR_REGION=${{ secrets.OCR_REGION }}" >> $GITHUB_ENV
+          echo "OCR_SUBSCRIPTION_KEY=${{ secrets.OCR_SUBSCRIPTION_KEY }}" >> $GITHUB_ENV
+          
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'UETLearningJapaneseBE'
+          app-name: 'UETLearningJapaneseAPI'
           slot-name: 'Production'
           
