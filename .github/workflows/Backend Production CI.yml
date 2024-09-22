@@ -50,7 +50,7 @@ jobs:
           for VAR in "${ENV_VARS[@]}"; do
             echo "$VAR" >> ${GITHUB_WORKSPACE}/.env
           done
-
+          cat "${GITHUB_WORKSPACE}/.env"
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
