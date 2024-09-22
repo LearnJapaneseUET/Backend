@@ -6,11 +6,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    architecture: 'x64'
-
 - task: DownloadSecureFile@1
   inputs:
     secureFile: '.env'
@@ -24,17 +19,12 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)'
     
 - script: |
-    python -m venv venv
-    source venv/bin/activate
-    python -m pip install --upgrade pip
-    sudo apt-get install -y libpq-dev
-    pip install -r requirements.txt
-    cd myproject
-    python manage.py collectstatic --noinput
-  displayName: 'Install prerequisites and build'
+    echo "Zip all files"
+    zip release.zip ./* -r
+  displayName: 'Zip files to upload server'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'myproject/staticfiles'
+    PathtoPublish: 'release.zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
