@@ -1,0 +1,53 @@
+# Python Django
+# Test a Django project on multiple versions of Python.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+strategy:
+  matrix:
+    Python38:
+      PYTHON_VERSION: '3.8'
+    Python39:
+      PYTHON_VERSION: '3.9'
+    Python310:
+      PYTHON_VERSION: '3.10'
+  maxParallel: 3
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(PYTHON_VERSION)'
+    architecture: 'x64'
+
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: '.env'
+  displayName: 'Download .env file'
+  
+- task: CopyFiles@2
+  displayName: 'Copy .env to source code'
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: .env
+    TargetFolder: '$(Build.SourcesDirectory)'
+    
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install prerequisites'
+
+- script: |
+    cd myproject
+    python manage.py collectstatic --noinput
+  displayName: 'Build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'myproject/staticfiles/**'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
