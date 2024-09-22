@@ -17,6 +17,16 @@ steps:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: .env
     TargetFolder: '$(Build.SourcesDirectory)'
+
+- script: |
+    python -m venv venv
+    source venv/bin/activate
+    python -m pip install --upgrade pip
+    sudo apt-get install -y libpq-dev
+    pip install -r requirements.txt
+    cd myproject
+    python manage.py collectstatic --noinput
+  displayName: 'Install prerequisites and build'
     
 - script: |
     echo "Zip all files"
