@@ -45,9 +45,9 @@ def getImgBySelenium(searchTerm):
         print(f"Error: {e}")
         return ""
 
-    # finally:
+    finally:
         # Đóng trình duyệt
-        #close_end_time = time.time()
-        #print(f"fetch_close took {close_end_time - img_start_time:.4f} seconds")
-        # driver.quit()
+        # close_end_time = time.time()
+        # print(f"fetch_close took {close_end_time - img_start_time:.4f} seconds")
+        driver.quit()
 
