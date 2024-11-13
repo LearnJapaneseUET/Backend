@@ -13,6 +13,9 @@ from django.core.wsgi import get_wsgi_application
 settings_module = 'myproject.deployment' if 'CUSTOM_DOMAIN' in os.environ else 'myproject.settings'
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
+# print settings_module
+print(os.environ['DJANGO_SETTINGS_MODULE'])
+
 application = get_wsgi_application()
 
 app = application

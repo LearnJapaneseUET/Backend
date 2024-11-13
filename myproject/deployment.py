@@ -19,9 +19,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'https://gentle-plant-001a12200.5.azurestaticapps.net' 
-]
+CORS_ALLOWED_ORIGINS = ['https://'+os.environ['CUSTOM_DOMAIN']]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
