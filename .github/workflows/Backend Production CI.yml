@@ -80,6 +80,7 @@ jobs:
         run: |
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
           echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" >> $GITHUB_ENV
+          echo "CUSTOM_DOMAIN=${{ secrets.CUSTOM_DOMAIN }}" >> $GITHUB_ENV
           echo "CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }}" >> $GITHUB_ENV
           echo "CHATBOT_API=${{ secrets.CHATBOT_API }}" >> $GITHUB_ENV
           echo "CHATBOT_URL=${{ secrets.CHATBOT_URL }}" >> $GITHUB_ENV
