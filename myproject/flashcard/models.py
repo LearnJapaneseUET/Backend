@@ -17,6 +17,21 @@ class FlashcardList(models.Model):
             # Nếu đối tượng mới được tạo, thực hiện thêm logic nếu cần
             pass
         return temp
+    
+class FlashcardUser(models.Model):
+    id = models.CharField(max_length=50, primary_key=True, unique=True)
+    lists = models.ManyToManyField(FlashcardList, related_name="user", null=True, blank=True)
+
+    @classmethod
+    def add(cls, id):
+        print("id", id)
+        temp, created = cls.objects.get_or_create(id=id, defaults={
+            'id': id
+        })
+        if created:
+            # Nếu đối tượng mới được tạo, thực hiện thêm logic nếu cần
+            pass
+        return temp
 
 class FlashcardWord(models.Model):
     id = models.CharField(max_length=10, unique=True, primary_key=True, default='None')
