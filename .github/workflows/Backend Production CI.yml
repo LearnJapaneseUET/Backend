@@ -92,7 +92,10 @@ jobs:
           echo "OCR_ENDPOINT=${{ secrets.OCR_ENDPOINT }}" >> $GITHUB_ENV
           echo "OCR_REGION=${{ secrets.OCR_REGION }}" >> $GITHUB_ENV
           echo "OCR_SUBSCRIPTION_KEY=${{ secrets.OCR_SUBSCRIPTION_KEY }}" >> $GITHUB_ENV
-          
+          echo "TRANSLATOR_KEY=${{ secrets.TRANSLATOR_KEY }}" >> $GITHUB_ENV
+          echo "TRANSLATOR_ENDPOINT=${{ secrets.TRANSLATOR_ENDPOINT }}" >> $GITHUB_ENV
+          echo "TRANSLATOR_REGION=${{ secrets.TRANSLATOR_REGION }}" >> $GITHUB_ENV
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
