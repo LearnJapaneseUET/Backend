@@ -68,6 +68,9 @@ def translateVtoJ(request):
         request = requests.post(constructed_url, params=params, headers=headers, json=body)
         response = request.json()
 
+        if 'error' in response:
+            return JsonResponse({"error": response['error']['message']}, status=response['error']['code'])
+
         translated_texts = [translation['text'] for translation in response[0]['translations']]
         return JsonResponse({"response": translated_texts})
 
@@ -102,6 +105,9 @@ def translateJtoV(request):
 
         request = requests.post(constructed_url, params=params, headers=headers, json=body)
         response = request.json()
+
+        if 'error' in response:
+            return JsonResponse({"error": response['error']['message']}, status=response['error']['code'])
 
         translated_texts = [translation['text'] for translation in response[0]['translations']]
         return JsonResponse({"response": translated_texts})
