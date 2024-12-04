@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - learning-japanese-app-backend
+name: Build and deploy Python app to Azure Web App
 
 on:
   push:
@@ -68,14 +68,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A7CA677C16E9434BA11D37A440B630E4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_86DB7A5CC33E442DAFF9403B30FC294D }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_754336B3C1E14594A0B86806B6596280 }}
-
       - name: Set environment variables
         run: |
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
@@ -100,6 +92,7 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'UETLearningJapaneseAPI'
+          app-name: 'dhcn'
           slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5775D44BEBF74FA7A04A0AEECC069639 }}
           
